@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val request = PeriodicWorkRequestBuilder<MyWorker>(15, TimeUnit.MINUTES)
+        val request = PeriodicWorkRequestBuilder<MyWorker2>(15, TimeUnit.MINUTES)
                 // Additional configuration
             .setConstraints(constraints)
             .addTag(PERIODIC_TASK_TAG)
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val request: WorkRequest = OneTimeWorkRequestBuilder<MyWorker>().setConstraints(constraints).build()
+        val request: WorkRequest = OneTimeWorkRequestBuilder<MyWorker2>().setConstraints(constraints).build()
 
         WorkManager.getInstance(this).enqueue(request)
     }
