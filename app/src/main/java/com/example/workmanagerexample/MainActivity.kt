@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.cancelTasks.setOnClickListener {
-
             cancelAllTasks()
         }
     }
@@ -42,8 +41,10 @@ class MainActivity : AppCompatActivity() {
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val request = PeriodicWorkRequestBuilder<MyWorker2>(15, TimeUnit.MINUTES)
-                // Additional configuration
+        //PeriodicWorkRequest, as the name suggests is used to run tasks that need to be called periodically(time to time) until cancelled.
+        val request = PeriodicWorkRequestBuilder<MyWorker2>(15, TimeUnit.MINUTES)                                   //The first execution happens immediately after the mentioned constraints are met and the next execution occurs after the mentioned period of time
+
+            // Additional configuration
             .setConstraints(constraints)
             .addTag(PERIODIC_TASK_TAG)
             .build()
@@ -60,15 +61,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupOneTimeWorker() {
 
+        //Constraints in WorkManager are specifications about the requirements that must be met
+        // before the work request is executed. For our use case, if we need to show notification to
+        // our users, having network availability is not required.
+
+        //One work request can have multiple constraints defined on it. In case of multiple constraints, the work is executed only when all the constraints are met. If any constraint is not satisfied, the work is stopped and resumed only when that constraint is met.
+
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
             .setRequiresCharging(false)
             .setRequiresBatteryNotLow(true)
             .build()
 
+        //OneTimeWorkRequest is a concrete implementation of the WorkRequest class which is used to run WorkManager tasks that are to be executed once
         val request: WorkRequest = OneTimeWorkRequestBuilder<MyWorker2>().setConstraints(constraints).build()
 
-        WorkManager.getInstance(this).enqueue(request)
+        //In order to run this work request, we need to call enqueue() method on an instance of WorkManager and pass this WorkRequest as shown below:
+        WorkManager.getInstance(this).enqueue(request)      //enqueue()- method enqueues one or more WorkRequests to be run in the background.
     }
 
     companion object{
