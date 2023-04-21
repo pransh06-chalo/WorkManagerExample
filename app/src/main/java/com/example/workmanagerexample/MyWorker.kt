@@ -16,6 +16,7 @@ import androidx.work.WorkerParameters
 class MyWorker(context: Context,parameters:WorkerParameters):Worker(context,parameters) {
 
     override fun doWork(): Result {
+        //WorkManager automatically runs it on a background thread (that you can override). Read more about threading in Worker instances in Threading in Worker.
         Log.e(TAG, "doWork: Success function called")
         showNotification()
         return Result.success()

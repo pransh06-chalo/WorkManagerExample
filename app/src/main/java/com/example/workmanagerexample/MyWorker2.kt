@@ -14,7 +14,7 @@ import androidx.work.WorkerParameters
 class MyWorker2(val context: Context,parameters: WorkerParameters):CoroutineWorker(context,parameters) {
 
     override suspend fun doWork(): Result {
-
+        //todo Unlike Worker, CoroutineWorker code does not run on the Executor specified in your Configuration. Instead, it defaults to Dispatchers.Default - this default dispatcher is used for CPU intensive tasks, any thing that takes too long to run on the main thread should run on the default
         showNotification()
         return Result.success()
     }
